@@ -6,7 +6,7 @@ describe("canStopBall", () => {
     expect(canStopBall([1, 0], 1)).toEqual(true);
   });
 
-  it("should return false if the ball can now slow down in time", () => {
+  it("should return false if the ball cannot slow down in time", () => {
     expect(canStopBall([0, 1, 0, 0, 1, 0], 3)).toEqual(false);
     expect(canStopBall([0], 1)).toEqual(false);
   });
