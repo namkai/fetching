@@ -1,3 +1,5 @@
+type ValueOf<T> = T[keyof T];
+
 interface Height {
   imperial: string;
   metric: string;
@@ -19,4 +21,5 @@ export interface Breed {
   origin: string;
   temperament: string;
   weight: Weight;
+  [key: string]: ValueOf<Breed>;
 }

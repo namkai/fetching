@@ -33,17 +33,19 @@ export default function Table<T extends Mapable>({
   const [direction, setDirection] = useState(Direction.Ascending);
   const [selectedKey, setSelectedKey] = useState<keyof T | null>(null);
 
-  const isAscendingOrder = direction === Direction.Ascending;
+  const isAscendingOrder = useMemo(() => direction === Direction.Ascending, [
+    direction,
+  ]);
 
-  const handleHeaderClick = (nextKey: keyof T) => {
-    if (nextKey === selectedKey) {
+  const handleHeaderClick = (clickedKey: keyof T) => {
+    if (clickedKey === selectedKey) {
       setDirection(
         direction === Direction.Ascending
           ? Direction.Descending
           : Direction.Ascending
       );
     } else {
-      setSelectedKey(nextKey);
+      setSelectedKey(clickedKey);
     }
   };
 
@@ -65,16 +67,13 @@ export default function Table<T extends Mapable>({
     <StyledContainer>
       <Row>
         {keys.map((key) => (
-          <TitleCell
-            key={String(key)}
-            handleOnClick={() => handleHeaderClick(key)}
-          >
+          <TitleCell key={String(key)} onClick={() => handleHeaderClick(key)}>
             {key}
           </TitleCell>
         ))}
       </Row>
       {formattedData.map((data: T) => (
-        <Row key={data.id}>
+        <Row data-testid="row" key={data.id}>
           {keys.map((key) => (
             <Cell key={String(key)}>
               {typeof data[key] === "object"
