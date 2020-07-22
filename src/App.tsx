@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 function App() {
-  const [breeds, setBreeds] = useState<Breed[]>([]);
+  const [breeds, setBreeds] = useState<Breed[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,11 +39,13 @@ function App() {
     fetchDogBreeds();
   }, []);
 
+  const keys: Array<keyof Breed> = ["id", "name", "life_span"];
+
   return (
     <Container>
       {loading && "loading..."}
       {error}
-      <Table data={breeds} />
+      {breeds && <Table keys={keys} data={breeds} />}
     </Container>
   );
 }

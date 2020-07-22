@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import styled from "styled-components";
 import Row from "./Row";
 import Cell from "./Cell";
@@ -8,8 +8,17 @@ const StyledContainer = styled(Container)`
   flex-direction: column;
 `;
 
+const TitleCell = styled(Cell)`
+  font-size: 1.5rem;
+  text-transform: capitalize;
+`;
+
+interface Mapable {
+  [key: string]: any;
+}
 interface TableProps<T> {
   data: T[];
+  keys: Array<keyof T>;
 }
 
 enum Direction {
@@ -17,20 +26,63 @@ enum Direction {
   Descending = "desc",
 }
 
-export default function Table<T>({ data }: TableProps<T>) {
+export default function Table<T extends Mapable>({
+  data,
+  keys,
+}: TableProps<T>) {
   const [direction, setDirection] = useState(Direction.Ascending);
+  const [selectedKey, setSelectedKey] = useState<keyof T | null>(null);
 
-  const titles = data.length > 0 ? Object.keys(data[0]) : [];
+  const isAscendingOrder = direction === Direction.Ascending;
+
+  const handleHeaderClick = (nextKey: keyof T) => {
+    if (nextKey === selectedKey) {
+      setDirection(
+        direction === Direction.Ascending
+          ? Direction.Descending
+          : Direction.Ascending
+      );
+    } else {
+      setSelectedKey(nextKey);
+    }
+  };
+
+  const formattedData = useMemo(
+    () =>
+      selectedKey
+        ? data.sort((a, b) => {
+            if (isAscendingOrder) {
+              return a[selectedKey!] > b[selectedKey!] ? 1 : -1;
+            }
+
+            return a[selectedKey!] < b[selectedKey!] ? 1 : -1;
+          })
+        : data,
+    [data, isAscendingOrder, selectedKey]
+  );
 
   return (
     <StyledContainer>
       <Row>
-        {titles.map((title) => (
-          <Cell>{title}</Cell>
+        {keys.map((key) => (
+          <TitleCell
+            key={String(key)}
+            handleOnClick={() => handleHeaderClick(key)}
+          >
+            {key}
+          </TitleCell>
         ))}
       </Row>
-      {data.map((data: T) => (
-        <Row></Row>
+      {formattedData.map((data: T) => (
+        <Row key={data.id}>
+          {keys.map((key) => (
+            <Cell key={String(key)}>
+              {typeof data[key] === "object"
+                ? Object.keys(data[key]).length
+                : data[key]}
+            </Cell>
+          ))}
+        </Row>
       ))}
     </StyledContainer>
   );

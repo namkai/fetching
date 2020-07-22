@@ -4,11 +4,23 @@ import Container from "./Container";
 
 const StyledContainer = styled(Container)`
   border: 1px solid grey;
-  justify-content: center;
+  justify-content: left;
+  padding: 0.2rem;
 `;
 
-const Cell: React.FC = ({ children }) => (
-  <StyledContainer>{children}</StyledContainer>
+interface CellProps {
+  key: string;
+  handleOnClick?(): void;
+}
+
+const Cell: React.FC<CellProps> = ({
+  children,
+  handleOnClick,
+  ...restOfProps
+}) => (
+  <StyledContainer {...restOfProps} onClick={handleOnClick}>
+    {children}
+  </StyledContainer>
 );
 
 export default Cell;
