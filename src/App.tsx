@@ -3,9 +3,9 @@ import axios from "axios";
 import Table from "./components/Table";
 import { Breed } from "./models";
 import styled from "styled-components";
+import Container from "./components/Container";
 
-const Container = styled.div`
-  display: flex;
+const StyledContainer = styled(Container)`
   height: 100vh;
   width: 100vw;
 `;
@@ -42,11 +42,11 @@ function App() {
   const keys: Array<keyof Breed> = ["id", "name", "life_span"];
 
   return (
-    <Container>
+    <StyledContainer>
       {loading && "loading..."}
       {error}
       {breeds && <Table keys={keys} data={breeds} />}
-    </Container>
+    </StyledContainer>
   );
 }
 
