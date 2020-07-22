@@ -17,6 +17,7 @@ const TitleCell = styled(Cell)`
 interface Mapable {
   [key: string]: any;
 }
+
 interface TableProps<T> {
   data: T[];
   keys: Array<keyof T>;
