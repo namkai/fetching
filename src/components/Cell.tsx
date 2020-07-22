@@ -5,7 +5,6 @@ const Cell = styled(Container)`
   border: 1px solid grey;
   justify-content: left;
   padding: 0.2rem;
-  cursor: pointer;
 `;
 
 export default Cell;

@@ -11,6 +11,7 @@ const StyledContainer = styled(Container)`
 const TitleCell = styled(Cell)`
   font-size: 1.5rem;
   text-transform: capitalize;
+  cursor: pointer;
 `;
 
 interface Mapable {

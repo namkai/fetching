@@ -9,17 +9,17 @@ exports[`Table should render correctly 1`] = `
       class="sc-AxjAm sc-AxirZ iGwWVY"
     >
       <div
-        class="sc-AxjAm sc-AxiKw sc-AxhUy gmDDPU"
+        class="sc-AxjAm sc-AxiKw sc-AxhUy gASOY"
       >
         id
       </div>
       <div
-        class="sc-AxjAm sc-AxiKw sc-AxhUy gmDDPU"
+        class="sc-AxjAm sc-AxiKw sc-AxhUy gASOY"
       >
         name
       </div>
       <div
-        class="sc-AxjAm sc-AxiKw sc-AxhUy gmDDPU"
+        class="sc-AxjAm sc-AxiKw sc-AxhUy gASOY"
       >
         life_span
       </div>
