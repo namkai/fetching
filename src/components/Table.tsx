@@ -1,21 +1,37 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
+import Row from "./Row";
+import Cell from "./Cell";
+import Container from "./Container";
 
-const Container = styled.div`
-  display: flex;
-`
+const StyledContainer = styled(Container)`
+  flex-direction: column;
+`;
 
-interface TableProps {
-
+interface TableProps<T> {
+  data: T[];
 }
 
-const enum
+enum Direction {
+  Ascending = "asc",
+  Descending = "desc",
+}
 
-export default function Table(): React.FC<TableProps> {
-  const []
+export default function Table<T>({ data }: TableProps<T>) {
+  const [direction, setDirection] = useState(Direction.Ascending);
+
+  const titles = data.length > 0 ? Object.keys(data[0]) : [];
+
   return (
-    <Container>
-      Table
-    </Container>
-  )
+    <StyledContainer>
+      <Row>
+        {titles.map((title) => (
+          <Cell>{title}</Cell>
+        ))}
+      </Row>
+      {data.map((data: T) => (
+        <Row></Row>
+      ))}
+    </StyledContainer>
+  );
 }
