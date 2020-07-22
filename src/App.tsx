@@ -1,25 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Table from "./components/Table";
+import { Breed } from "./models";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+`;
 
 function App() {
+  const [breeds, setBreeds] = useState<Breed[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchDogBreeds() {
+      const url = "https://api.thedogapi.com/v1/breeds";
+
+      try {
+        setLoading(true);
+        const { data } = await axios(url, {
+          method: "GET",
+          headers: {
+            "X-Api-Key": process.env.REACT_APP_DOG_BREED,
+          },
+        });
+
+        setBreeds(data);
+      } catch (error) {
+        setError("Whoops something went wrong, please try again.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDogBreeds();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      {loading && "loading..."}
+      {error}
+      <Table data={breeds} />
+    </Container>
   );
 }
 
